@@ -24,25 +24,25 @@ jobs:
 Default usage will look like this:
 ```yaml
 jobs:
-    deploy:
-        runs-on: ubuntu-latest
-        steps:
-          - uses: dmitriybobrovskiy/get-azure-keyvault-secrets@latest
-            with:
-                login_credentials: ${{ secrets.AZURE_CREDENTIALS }}
-                keyvault: company-main-kv
-                secrets: |
-                    DatabasePassword=platform-api-password
-                    ClientSecret=platform-api-client-secret
-                    AuthToken=platform-auth-token
-                    Serilog__WriteTo__ApplicationInsights__Args__telemetryConfiguration__ConnectionString=ai-connection-string
-                configs: |
-                    User=platform-api-user
-                    ApiUrl=platform-api-url
-          
-          - name: Some step to consume secrets
-            run: |
-                echo "${{ env.User }} ${{ env.ApiUrl }}"
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: dmitriybobrovskiy/get-azure-keyvault-secrets@latest
+        with:
+          login_credentials: ${{ secrets.AZURE_CREDENTIALS }}
+          keyvault: company-main-kv
+          secrets: |
+            DatabasePassword=platform-api-password
+            ClientSecret=platform-api-client-secret
+            AuthToken=platform-auth-token
+            Serilog__WriteTo__ApplicationInsights__Args__telemetryConfiguration__ConnectionString=ai-connection-string
+          configs: |
+            User=platform-api-user
+            ApiUrl=platform-api-url
+        
+      - name: Some step to consume secrets
+        run: |
+          echo "${{ env.User }} ${{ env.ApiUrl }}"
 ```
 What is going on under the hood:
 1. Login to Azure using provided credentials (if they are provided)
