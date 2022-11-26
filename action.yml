@@ -26,5 +26,6 @@ runs:
     - name: Retrieve secrets from key Vault
       shell: bash
       run: |
+        chmod +x $GITHUB_WORKSPACE/get_secrets.sh
         $GITHUB_ACTION_PATH/get_secrets.sh $INPUT_KEYVAULT $INPUT_SECRETS true
         $GITHUB_ACTION_PATH/get_secrets.sh $INPUT_KEYVAULT $INPUT_SECRETS false
