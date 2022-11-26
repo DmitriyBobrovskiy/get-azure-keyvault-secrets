@@ -27,7 +27,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: dmitriybobrovskiy/get-azure-keyvault-secrets@latest
+      - uses: dmitriybobrovskiy/get-azure-keyvault-secrets@v1.0.0
         with:
           login_credentials: ${{ secrets.AZURE_CREDENTIALS }}
           keyvault: company-main-kv
