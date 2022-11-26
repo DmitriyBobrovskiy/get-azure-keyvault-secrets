@@ -14,6 +14,10 @@ inputs:
     description: Credentials for Azure Login, if omitted login is not performed
     required: false
 
+branding:
+  color: 'blue'
+  icon: 'arrow-down'
+
 runs:
   using: composite
   steps:
