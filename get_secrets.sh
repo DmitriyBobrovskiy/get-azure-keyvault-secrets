@@ -3,7 +3,7 @@ keyVaultName=$1
 input=$2
 hideSecrets=$3
 
-echo "::notice::Getting secrets from $keyVaultName and hiding secrets: $hideSecrets"
+echo "$(tput -T xterm setaf 4) Getting secrets from $keyVaultName and hiding secrets: $hideSecrets"
 
 while read -r line; do
     # running in background since we are getting secrets one by one
