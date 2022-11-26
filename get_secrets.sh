@@ -5,7 +5,7 @@ hideSecrets=$3
 
 echo "Getting secrets from $keyVaultName and hiding secrets: $hideSecrets"
 
-while read line; do
+while read -r line; do
     # running in background since we are getting secrets one by one
     # and running in foreground will take more time
     (
