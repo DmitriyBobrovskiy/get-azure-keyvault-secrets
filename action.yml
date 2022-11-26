@@ -1,0 +1,35 @@
+name: Get secrets from Azure key vault
+description: Get Secrets from Azure Key Vault instance and set as GitHub environment variables
+inputs:
+  keyvault:
+    description: Name of the azure key vault
+    required: true
+  secrets:
+    description: List of newline-separated environment variables' names and key vault secret names that should be masked out
+    required: false
+  configs:
+    description: List of newline-separated environment variables' names and key vault secret names that should not be masked out
+    required: false
+  login_credentials:
+    description: Credentials for Azure Login, if omitted login is not performed
+    required: false
+
+runs:
+  using: composite
+  steps:
+    - name: Azure login
+      uses: azure/login@v1
+      if: ${{ inputs.login_credentials }}
+      with:
+        creds: ${{ inputs.login_credentials }}
+        
+    - name: Retrieve secrets from key Vault
+      uses: azure/cli@v1
+      with:
+        inlineScript: $GITHUB_ACTION_PATH/get_secrets.sh $INPUT_KEYVAULT $INPUT_SECRETS true
+
+    - name: Retrieve configs from key Vault
+      uses: azure/cli@v1
+      with:
+        inlineScript: $GITHUB_ACTION_PATH/get_secrets.sh $INPUT_KEYVAULT $INPUT_SECRETS false
+
