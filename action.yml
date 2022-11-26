@@ -22,14 +22,9 @@ runs:
       if: ${{ inputs.login_credentials }}
       with:
         creds: ${{ inputs.login_credentials }}
-        
+
     - name: Retrieve secrets from key Vault
-      uses: azure/cli@v1
-      with:
-        inlineScript: $GITHUB_ACTION_PATH/get_secrets.sh $INPUT_KEYVAULT $INPUT_SECRETS true
-
-    - name: Retrieve configs from key Vault
-      uses: azure/cli@v1
-      with:
-        inlineScript: $GITHUB_ACTION_PATH/get_secrets.sh $INPUT_KEYVAULT $INPUT_SECRETS false
-
+      shell: bash
+      run: |
+        $GITHUB_ACTION_PATH/get_secrets.sh $INPUT_KEYVAULT $INPUT_SECRETS true
+        $GITHUB_ACTION_PATH/get_secrets.sh $INPUT_KEYVAULT $INPUT_SECRETS false
