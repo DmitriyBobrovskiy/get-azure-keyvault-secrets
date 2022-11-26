@@ -8,17 +8,21 @@ while read -r line; do
     # and running in foreground will take more time
     (
         echo "::debug::$line"
-        envVariableName="${line%=*}"
-        secretName="${line#*=}"
-        echo "Environment variable name: $envVariableName, secret name: $secretName"
+        if [ -n "$line" ]; then
+            envVariableName="${line%=*}"
+            secretName="${line#*=}"
+            echo "Environment variable name: $envVariableName, secret name: $secretName"
 
-        secretValue=$(az keyvault secret show --name "$secretName" --vault-name "$keyVaultName" --query value)
-        if [ "$hideSecrets" = true ]; then
-            echo "Secret name: $secretName value: ::add-mask::$secretValue"
+            secretValue=$(az keyvault secret show --name "$secretName" --vault-name "$keyVaultName" --query value)
+            if [ "$hideSecrets" = true ]; then
+                echo "Secret name: $secretName value: ::add-mask::$secretValue"
+            else
+                echo "Config name: $secretName value: $secretValue"
+            fi
+            echo "$envVariableName=$secretValue" >> "$GITHUB_ENV"
         else
-            echo "Config name: $secretName value: $secretValue"
+            echo "::debug::Line is empty, skipping"
         fi
-        echo "$envVariableName=$secretValue" >> "$GITHUB_ENV"
     ) &
 done <<< "$input"
 
