@@ -17,7 +17,8 @@ while read -r line; do
 
             secretValue=$(az keyvault secret show --name "$secretName" --vault-name "$keyVaultName" --query value)
             if [ "$hideSecrets" = true ]; then
-                echo "Secret name: $secretName value: ::add-mask::$secretValue"
+                echo "::add-mask::$secretValue"
+                echo "Secret name: $secretName value: $secretValue"
             else
                 echo "Config name: $secretName value: $secretValue"
             fi
