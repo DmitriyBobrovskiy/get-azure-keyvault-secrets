@@ -3,11 +3,13 @@ keyVaultName=$1
 input=$2
 hideSecrets=$3
 
-while read -r line; do
+echo "Getting secrets from $keyVaultName and hiding secrets: $hideSecrets"
+
+while read line; do
     # running in background since we are getting secrets one by one
     # and running in foreground will take more time
     (
-        echo "::debug::$line"
+        echo "Reading line: ::debug::$line"
         if [ -n "$line" ]; then
             envVariableName="${line%=*}"
             secretName="${line#*=}"
