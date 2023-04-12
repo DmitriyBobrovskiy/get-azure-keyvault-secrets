@@ -32,6 +32,6 @@ runs:
       with:
         azcliversion: 2.30.0
         inlineScript: |
-        chmod +x $GITHUB_ACTION_PATH/get_secrets.sh
-        $GITHUB_ACTION_PATH/get_secrets.sh ${{ inputs.keyvault }} '${{ inputs.secrets }}' true
-        $GITHUB_ACTION_PATH/get_secrets.sh ${{ inputs.keyvault }} '${{ inputs.configs }}' false
+        chmod +x $GITHUB_WORKSPACE/get_secrets.sh
+        $GITHUB_WORKSPACE/get_secrets.sh ${{ inputs.keyvault }} '${{ inputs.secrets }}' true
+        $GITHUB_WORKSPACE/get_secrets.sh ${{ inputs.keyvault }} '${{ inputs.configs }}' false
