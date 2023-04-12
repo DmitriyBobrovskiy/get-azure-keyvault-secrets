@@ -28,8 +28,10 @@ runs:
         creds: ${{ inputs.login_credentials }}
 
     - name: Retrieve secrets from key Vault
-      shell: bash
-      run: |
+      uses: azure/CLI@v1
+      with:
+        azcliversion: 2.30.0
+        inlineScript: |
         chmod +x $GITHUB_ACTION_PATH/get_secrets.sh
         $GITHUB_ACTION_PATH/get_secrets.sh ${{ inputs.keyvault }} '${{ inputs.secrets }}' true
         $GITHUB_ACTION_PATH/get_secrets.sh ${{ inputs.keyvault }} '${{ inputs.configs }}' false
