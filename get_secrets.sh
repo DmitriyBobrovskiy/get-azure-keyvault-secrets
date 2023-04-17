@@ -4,6 +4,8 @@ input=$2
 hideSecrets=$3
 
 echo "$(tput -T xterm setaf 4)Getting secrets from $keyVaultName and hiding secrets: $hideSecrets"
+formatted_input="$(echo "$input" | tr " " "\n" | tr ";" "\n")"
+echo Formatted input "$formatted_input"
 
 while read -r line; do
     # running in background since we are getting secrets one by one
@@ -27,7 +29,7 @@ while read -r line; do
             echo "::debug::Line is empty, skipping"
         fi
     ) &
-done <<< "$input"
+done <<< "$formatted_input"
 
 # waiting background jobs to finish
 wait
