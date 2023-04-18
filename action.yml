@@ -34,6 +34,7 @@ runs:
       shell: bash
       run: |
         chmod +x $GITHUB_ACTION_PATH/get_secrets.sh
+        IFS=
         file_secrets=$(cat ${{ inputs.secrets_file_path }})
         $GITHUB_ACTION_PATH/get_secrets.sh ${{ inputs.keyvault }} $file_secrets true
         $GITHUB_ACTION_PATH/get_secrets.sh ${{ inputs.keyvault }} '${{ inputs.secrets }}' true
