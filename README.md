@@ -27,7 +27,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: dmitriybobrovskiy/get-azure-keyvault-secrets@v1.0.0
+      - uses: dmitriybobrovskiy/get-azure-keyvault-secrets@v1.2.0
         with:
           login_credentials: ${{ secrets.AZURE_CREDENTIALS }}
           keyvault: company-main-kv
@@ -43,6 +43,47 @@ jobs:
       - name: Some step to consume secrets
         run: |
           echo "${{ env.User }} ${{ env.ApiUrl }}"
+```
+That's also working
+```yaml
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: dmitriybobrovskiy/get-azure-keyvault-secrets@v1.2.0
+        with:
+          login_credentials: ${{ secrets.AZURE_CREDENTIALS }}
+          keyvault: company-main-kv
+          secrets: |
+            DatabasePassword=platform-api-password ClientSecret=platform-api-client-secret
+        
+      - name: Some step to consume secrets
+        run: |
+          echo "${{ env.DatabasePassword }} ${{ env.ClientSecret }}"
+```
+Also if you want to specify your secret names in separate file like `secrets.env` with content like this:
+```env
+DatabasePassword=platform-api-password
+ClientSecret=platform-api-client-secret
+AuthToken=platform-auth-token
+Serilog__WriteTo__ApplicationInsights__Args__telemetryConfiguration__ConnectionString=ai-connection-string
+```
+Then you can read it like:
+```yaml
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: dmitriybobrovskiy/get-azure-keyvault-secrets@v1.2.0
+        with:
+          login_credentials: ${{ secrets.AZURE_CREDENTIALS }}
+          keyvault: company-main-kv
+          secrets_file_path: <path_to_the_folder>/secrets.env
+          # or secrets_file_path: <path_to_the_folder>/secrets* # wildcard works as well
+        
+      - name: Some step to consume secrets
+        run: |
+          echo "${{ env.DatabasePassword }} ${{ env.AuthToken }}"
 ```
 What is going on under the hood:
 1. Login to Azure using provided credentials (if they are provided)
